@@ -1,0 +1,17 @@
+{
+    "name": "hexlet/code",
+    "description": "php slim project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilshat Khabirov",
+            "email": "khabdev@yandex.ru"
+        }
+    ],
+    "require": {}
+}
