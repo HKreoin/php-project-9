@@ -30,30 +30,22 @@ class UrlChecker
             
             return [
                 'status_code' => $res->getStatusCode(),
-                'h1' => $this->extractH1($document),
-                'title' => $this->extractTitle($document),
-                'description' => $this->extractDescription($document)
+                'h1' => $this->extractMeta($document, 'h1'),
+                'title' => $this->extractMeta($document, 'title'),
+                'description' => $this->extractMeta($document, 'meta[name="description"]', 'content')
             ];
         } catch (RequestException $e) {
             throw new \Exception('Ошибка при проверке: ' . $e->getMessage());
         }
     }
 
-    private function extractH1(Document $document): string
+    private function extractMeta(Document $document, string $selector, ?string $attribute = null): string
     {
-        $h1 = $document->first('h1');
-        return $h1 ? trim($h1->text()) : '';
-    }
+        $element = $document->first($selector);
+        if (!$element) {
+            return '';
+        }
 
-    private function extractTitle(Document $document): string
-    {
-        $title = $document->first('title');
-        return $title ? trim($title->text()) : '';
-    }
-
-    private function extractDescription(Document $document): string
-    {
-        $description = $document->first('meta[name="description"]');
-        return $description ? trim($description->getAttribute('content')) : '';
+        return $attribute ? trim($element->getAttribute($attribute)) : trim($element->text());
     }
 } 
