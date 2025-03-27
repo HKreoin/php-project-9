@@ -1,0 +1,40 @@
+<?php if (isset($flash['success'])): ?>
+    <div class="alert alert-success" role="alert">
+        <?= $flash['success'][0] ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($flash['error'])): ?>
+    <div class="alert alert-danger" role="alert">
+        <?= $flash['error'][0] ?>
+    </div>
+<?php endif; ?>
+
+<h1>Сайты</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover text-nowrap">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Последняя проверка</th>
+                <th>Код ответа</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($urls as $url): ?>
+                <tr>
+                    <td><?= htmlspecialchars($url['id']) ?></td>
+                    <td>
+                        <a href="/urls/<?= $url['id'] ?>">
+                            <?= htmlspecialchars($url['name']) ?>
+                        </a>
+                    </td>
+                    <td><?= $url['last_check_at'] ?? '' ?></td>
+                    <td><?= $url['last_status_code'] ?? '' ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div> 

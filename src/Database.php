@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Hexlet\Code;
 
 use PDO;
 use PDOException;
@@ -20,12 +20,11 @@ class Database
 
     private static function createConnection(): PDO
     {
-        $databaseUrl = getenv('DATABASE_URL');
-        
-        if ($databaseUrl === false) {
+        if (!isset($_ENV['DATABASE_URL'])) {
             throw new PDOException('DATABASE_URL environment variable is not set');
         }
 
+        $databaseUrl = $_ENV['DATABASE_URL'];
         $params = parse_url($databaseUrl);
         
         if ($params === false) {
