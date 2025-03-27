@@ -4,6 +4,7 @@ namespace Hexlet\Code\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use DiDom\Document;
 
 class UrlChecker
 {
@@ -25,39 +26,34 @@ class UrlChecker
         try {
             $res = $this->client->get($url);
             $body = (string) $res->getBody();
+            $document = new Document($body);
             
             return [
                 'status_code' => $res->getStatusCode(),
-                'h1' => $this->extractH1($body),
-                'title' => $this->extractTitle($body),
-                'description' => $this->extractDescription($body)
+                'h1' => $this->extractH1($document),
+                'title' => $this->extractTitle($document),
+                'description' => $this->extractDescription($document)
             ];
         } catch (RequestException $e) {
             throw new \Exception('Ошибка при проверке: ' . $e->getMessage());
         }
     }
 
-    private function extractH1(string $body): string
+    private function extractH1(Document $document): string
     {
-        if (preg_match('/<h1[^>]*>(.*?)<\/h1>/i', $body, $matches)) {
-            return trim($matches[1]);
-        }
-        return '';
+        $h1 = $document->first('h1');
+        return $h1 ? trim($h1->text()) : '';
     }
 
-    private function extractTitle(string $body): string
+    private function extractTitle(Document $document): string
     {
-        if (preg_match('/<title[^>]*>(.*?)<\/title>/i', $body, $matches)) {
-            return trim($matches[1]);
-        }
-        return '';
+        $title = $document->first('title');
+        return $title ? trim($title->text()) : '';
     }
 
-    private function extractDescription(string $body): string
+    private function extractDescription(Document $document): string
     {
-        if (preg_match('/<meta[^>]*name=["\']description["\'][^>]*content=["\'](.*?)["\']/i', $body, $matches)) {
-            return trim($matches[1]);
-        }
-        return '';
+        $description = $document->first('meta[name="description"]');
+        return $description ? trim($description->getAttribute('content')) : '';
     }
 } 

@@ -25,7 +25,8 @@
         "slim/flash": "^0.4.0",
         "vlucas/phpdotenv": "^5.5",
         "guzzlehttp/guzzle": "^7.8",
-        "slim/php-view": "^3.4"
+        "slim/php-view": "^3.4",
+        "imangazaliev/didom": "^2.0"
     },
     "scripts": {
         "phpcs": "phpcs"
