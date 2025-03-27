@@ -30,8 +30,7 @@ class UrlChecker
                 'status_code' => $res->getStatusCode(),
                 'h1' => $this->extractH1($body),
                 'title' => $this->extractTitle($body),
-                'description' => $this->extractDescription($body),
-                'keywords' => $this->extractKeywords($body)
+                'description' => $this->extractDescription($body)
             ];
         } catch (RequestException $e) {
             throw new \Exception('Ошибка при проверке: ' . $e->getMessage());
@@ -57,14 +56,6 @@ class UrlChecker
     private function extractDescription(string $body): string
     {
         if (preg_match('/<meta[^>]*name=["\']description["\'][^>]*content=["\'](.*?)["\']/i', $body, $matches)) {
-            return trim($matches[1]);
-        }
-        return '';
-    }
-
-    private function extractKeywords(string $body): string
-    {
-        if (preg_match('/<meta[^>]*name=["\']keywords["\'][^>]*content=["\'](.*?)["\']/i', $body, $matches)) {
             return trim($matches[1]);
         }
         return '';

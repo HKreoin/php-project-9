@@ -1,63 +1,65 @@
-<div class="container-lg mt-3">
-  <h1>Сайт: https://hexlet.io</h1>
-  <div class="table-responsive">
-    <table
-      class="table table-bordered table-hover text-nowrap"
-      data-test="url"
-    >
-      <tbody>
-      <tr>
-        <td>ID</td>
-        <td>1</td>
-      </tr>
-      <tr>
-        <td>Имя</td>
-        <td>https://hexlet.io</td>
-      </tr>
-      <tr>
-        <td>Дата создания</td>
-        <td>2025-02-12 18:44:22</td>
-      </tr>
-      </tbody>
+<?php if (isset($flash['success'])): ?>
+    <div class="alert alert-success" role="alert">
+        <?= $flash['success'][0] ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($flash['error'])): ?>
+    <div class="alert alert-danger" role="alert">
+        <?= $flash['error'][0] ?>
+    </div>
+<?php endif; ?>
+
+<h1>Сайт: <?= htmlspecialchars($url['name']) ?></h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover text-nowrap" data-test="url">
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td><?= htmlspecialchars($url['id']) ?></td>
+            </tr>
+            <tr>
+                <td>Имя</td>
+                <td><?= htmlspecialchars($url['name']) ?></td>
+            </tr>
+            <tr>
+                <td>Дата создания</td>
+                <td><?= date('Y-m-d H:i:s', strtotime($url['created_at'])) ?></td>
+            </tr>
+        </tbody>
     </table>
-  </div>
-  <h2 class="mt-5 mb-3">Проверки</h2>
-  <form
-    method="post"
-    action="/urls/1/checks"
-  >
-    <input
-      type="submit"
-      class="btn btn-primary"
-      value="Запустить проверку"
-    >
-  </form>
-  <table
-    class="table table-bordered table-hover"
-    data-test="checks"
-  >
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Код ответа</th>
-      <th>h1</th>
-      <th>title</th>
-      <th>description</th>
-      <th>Дата создания</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!--?php foreach ($checks as $check): ?-->
-    <tr>
-      <td>1</td>
-      <td>200</td>
-      <td class="text-break">Online programming school</td>
-      <td class="text-break">Programming education: online courses for beginners and advanced students</td>
-      <td class="text-break">Live online community of programmers and developers. Author training programs with practice
-        and finished projects in resumes. Hiring assistance after successful graduation
-      </td>
-      <td>2025-02-12 18:44:34</td>
-    </tr>
-    </tbody>
-  </table>
 </div>
+
+<h2 class="mt-5 mb-3">Проверки</h2>
+
+<form action="/urls/<?= $url['id'] ?>/checks" method="post" class="mb-4">
+    <button type="submit" class="btn btn-primary">Запустить проверку</button>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Код ответа</th>
+                <th>h1</th>
+                <th>title</th>
+                <th>description</th>
+                <th>Дата проверки</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($checks as $check): ?>
+                <tr>
+                    <td><?= htmlspecialchars($check['id']) ?></td>
+                    <td><?= htmlspecialchars($check['status_code']) ?></td>
+                    <td class="text-break"><?= htmlspecialchars($check['h1']) ?></td>
+                    <td class="text-break"><?= htmlspecialchars($check['title']) ?></td>
+                    <td class="text-break"><?= htmlspecialchars($check['description']) ?></td>
+                    <td><?= date('Y-m-d H:i:s', strtotime($check['created_at'])) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div> 

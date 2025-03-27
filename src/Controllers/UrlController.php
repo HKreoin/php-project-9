@@ -33,7 +33,8 @@ class UrlController extends BaseController
     {
         return $this->render($response, 'index', [
             'title' => 'Главная',
-            'flash' => $this->flash->getMessages()
+            'flash' => $this->flash->getMessages(),
+            'currentPath' => '/'
         ]);
     }
 
@@ -71,11 +72,12 @@ class UrlController extends BaseController
         }
 
         $checks = $this->repository->getChecks($id);
-        return $this->render($response, 'show', [
+        return $this->render($response, 'urls/show', [
             'title' => 'Страница',
             'url' => $url,
             'checks' => $checks,
-            'flash' => $this->flash->getMessages()
+            'flash' => $this->flash->getMessages(),
+            'currentPath' => "/urls/{$id}"
         ]);
     }
 
@@ -85,7 +87,8 @@ class UrlController extends BaseController
         return $this->render($response, 'urls', [
             'title' => 'Сайты',
             'urls' => $urls,
-            'flash' => $this->flash->getMessages()
+            'flash' => $this->flash->getMessages(),
+            'currentPath' => '/urls'
         ]);
     }
 

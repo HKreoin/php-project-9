@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS url_checks (
     h1 varchar(255),
     title varchar(255),
     description text,
-    keywords text,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE url_checks DROP COLUMN IF EXISTS keywords;

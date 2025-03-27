@@ -61,14 +61,13 @@ class UrlRepository
 
     public function createCheck(int $urlId, array $data): void
     {
-        $stmt = $this->db->prepare('INSERT INTO url_checks (url_id, status_code, h1, title, description, keywords) VALUES (?, ?, ?, ?, ?, ?)');
+        $stmt = $this->db->prepare('INSERT INTO url_checks (url_id, status_code, h1, title, description) VALUES (?, ?, ?, ?, ?)');
         $stmt->execute([
             $urlId,
             $data['status_code'],
             $data['h1'],
             $data['title'],
-            $data['description'],
-            $data['keywords']
+            $data['description']
         ]);
     }
 } 
